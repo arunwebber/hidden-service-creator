@@ -31,13 +31,13 @@ Before running this script, ensure you have the following:
 2. Make the script executable:
 
    ```bash
-   chmod +x hidden_service_setup.sh
+   chmod +x script.sh
    ```
 
 3. Run the script:
 
    ```bash
-   ./hidden_service_setup.sh
+   ./script.sh
    ```
 
 ## Usage
