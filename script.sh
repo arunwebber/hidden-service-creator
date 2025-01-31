@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e  # Exit immediately if a command fails
 set -o pipefail  # Catch errors in piped commands
 
@@ -86,7 +87,7 @@ setup_oniongen() {
 # Step 8: Generate Custom Onion Address
 generate_onion_address() {
     echo "Generating custom onion address for: $manual_url"
-    onion_address=$(torify go run main.go "^$manual_url" 1 2>/dev/null || echo "")
+    onion_address=$(go run main.go "^$manual_url" 1 2>/dev/null || echo "")
     
     if [[ -z "$onion_address" ]]; then
         echo "Failed to generate onion address. Try again."
@@ -114,5 +115,6 @@ if [[ "$choice" =~ ^[Yy]$ ]]; then
 else
     echo "Using automatically generated hidden service URL: $onion_address"
 fi
+
 # Final Step: Restart Tor After Key Update
 restart_tor
