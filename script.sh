@@ -3,7 +3,9 @@
 set -e  # Exit immediately if a command fails
 set -o pipefail  # Catch errors in piped commands
 
-# Step 1: Install Tor
+set -e
+set -o pipefail
+
 install_tor() {
     if ! command -v tor &> /dev/null; then
         echo "Installing Tor..."
@@ -12,9 +14,6 @@ install_tor() {
         echo "Tor is already installed."
     fi
 }
-install_tor
-
-# Step 2: Install Nginx using Torify (after Tor installation)
 install_nginx() {
     if ! command -v nginx &> /dev/null; then
         echo "Installing Nginx via Tor..."
@@ -23,9 +22,6 @@ install_nginx() {
         echo "Nginx is already installed."
     fi
 }
-install_nginx
-
-# Step 3: Install Go (after Tor installation)
 install_go() {
     if ! command -v go &> /dev/null; then
         echo "Installing Go via Tor..."
@@ -34,7 +30,10 @@ install_go() {
         echo "Go is already installed."
     fi
 }
-install_go
+install_tor &
+install_nginx &
+install_go &
+wait
 
 # Step 4: Configure Tor Hidden Service
 configure_torrc() {
