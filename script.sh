@@ -70,9 +70,14 @@ setup_oniongen() {
     if [ ! -d "$ONIONGEN_PATH" ]; then
         echo "oniongen not found, downloading..."
         sudo torify git clone https://github.com/rdkr/oniongen.git "$ONIONGEN_PATH"
+        
+        # Set permissions to 777
+        echo "Setting permissions to 777 for $ONIONGEN_PATH..."
+        sudo chmod -R 777 "$ONIONGEN_PATH"
     else
         echo "oniongen already exists in $ONIONGEN_PATH"
     fi
+
         # Go to the oniongen folder
     cd "$ONIONGEN_PATH"
 
