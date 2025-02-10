@@ -11,7 +11,7 @@ fi
 if ! command -v nginx &> /dev/null
 then
     echo "nginx not found, installing using torify..."
-    torify sudo apt install -y nginx
+    sudo torify apt install -y nginx
 else
     echo "nginx is already installed."
 fi
@@ -61,7 +61,7 @@ setup_oniongen() {
     if ! command -v go &> /dev/null; then
         echo "Go not found, installing..."
         sudo apt update
-        torify sudo apt install -y golang
+        sudo torify apt install -y golang
     else
         echo "Go is already installed."
     fi
@@ -69,7 +69,7 @@ setup_oniongen() {
     ONIONGEN_PATH="$HOME/Desktop/onion_data/oniongen"
     if [ ! -d "$ONIONGEN_PATH" ]; then
         echo "oniongen not found, downloading..."
-        torify git clone https://github.com/rdkr/oniongen.git "$ONIONGEN_PATH"
+        sudo torify git clone https://github.com/rdkr/oniongen.git "$ONIONGEN_PATH"
     else
         echo "oniongen already exists in $ONIONGEN_PATH"
     fi
