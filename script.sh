@@ -95,6 +95,16 @@ setup_oniongen() {
             echo "You have chosen to keep the onion address: $onion_address"
             # Instruct the user to copy the keys found in the folder to the onion folder
             echo "Please copy the keys found in the $ONIONGEN_PATH/$onion_address folder to the onion folder WHich is /var/lib/tor/hidden_service/."
+            #sudo diff -qr "$ONIONGEN_PATH/$onion_address" "/var/lib/tor/hidden_service/"
+            sudo mv /var/lib/tor/hidden_service/hostname /var/lib/tor/hidden_service/hostname.bak
+            sudo mv /var/lib/tor/hidden_service/hs_ed25519_public_key /var/lib/tor/hidden_service/hs_ed25519_public_key.bak
+            sudo mv /var/lib/tor/hidden_service/hs_ed25519_secret_key /var/lib/tor/hidden_service/hs_ed25519_secret_key.bak
+            sudo cp -r "$ONIONGEN_PATH/$onion_address/." "/var/lib/tor/hidden_service/"
+            sudo chown -R debian-tor:debian-tor /var/lib/tor/hidden_service/
+            sudo chmod 700 /var/lib/tor/hidden_service/
+            sudo systemctl restart tor
+            onion_address=$(sudo cat /var/lib/tor/hidden_service/hostname)
+            echo "Custom Onion Address:$onion_address"
         else
             echo "You have chosen to generate a new onion address."
             echo "Removing the old folder: $ONIONGEN_PATH/$onion_address"
