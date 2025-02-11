@@ -70,6 +70,7 @@ if [[ "$has_keys" == "y" || "$has_keys" == "Y" ]]; then
 
         custom_onion_address=$(sudo cat /var/lib/tor/hidden_service/hostname)
         echo "Your onion address is: $custom_onion_address"
+        echo "Copy your website content to /var/www/html and it will serve on this onion address"
         exit 0
     else
         echo "Invalid path. Please make sure the folder exists and try again."
@@ -80,6 +81,7 @@ fi
 ### **Step 6: Generate a new onion address if user doesn't have permanent keys**
 onion_address=$(sudo cat /var/lib/tor/hidden_service/hostname)
 echo "Generated Onion Address: $onion_address"
+echo "Copy your website content to /var/www/html and it will serve on this onion address"
 
 # Ask if user wants to configure a manual URL
 read -p "Do you want to configure a manual URL? (y/n): " choice
@@ -110,7 +112,7 @@ if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
         generate_onion_address() {
             onion_address=$(go run main.go "^$manual_url" 1)
             echo "Generated onion address: $onion_address"
-
+            echo "Copy your website content to /var/www/html and it will serve on this onion address"
             read -p "Do you want to keep this onion address? (y/n): " keep_choice
             if [[ "$keep_choice" == "y" || "$keep_choice" == "Y" ]]; then
                 echo "Copying keys to Tor hidden service directory..."
@@ -133,6 +135,7 @@ if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
                     echo "Keys backed up to: $backup_path"
                 fi
                 echo "Setup complete!"
+                echo "Copy your website content to /var/www/html and it will serve on this onion address"
             else
                 rm -rf "$ONIONGEN_PATH/$onion_address"
                 generate_onion_address
@@ -143,4 +146,5 @@ if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
     setup_oniongen
 else
     echo "Using automatically generated onion address: $onion_address"
+    echo "Copy your website content to /var/www/html and it will serve on this onion address"
 fi
