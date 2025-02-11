@@ -103,8 +103,19 @@ setup_oniongen() {
             sudo chown -R debian-tor:debian-tor /var/lib/tor/hidden_service/
             sudo chmod 700 /var/lib/tor/hidden_service/
             sudo systemctl restart tor
-            onion_address=$(sudo cat /var/lib/tor/hidden_service/hostname)
-            echo "Custom Onion Address:$onion_address"
+            custom_onion_address=$(sudo cat /var/lib/tor/hidden_service/hostname)
+            echo "Custom Onion Address:$custom_onion_address"
+            # Ask user if they want to save a backup of the keys
+            read -p "Do you want to save a backup of the onion service keys in another location? (y/n): " backup_choice
+            if [[ "$backup_choice" == "y" ]]; then
+                read -p "Enter the backup directory path: " backup_path                
+                # Ensure the directory exists
+                mkdir -p "$backup_path"        
+                # Copy keys to the backup location
+                cp -r "$ONIONGEN_PATH/$onion_address/." "$backup_path/"                
+                echo "Keys have been backed up to: $backup_path"
+            fi
+            echo "Setup complete!"
         else
             echo "You have chosen to generate a new onion address."
             echo "Removing the old folder: $ONIONGEN_PATH/$onion_address"
