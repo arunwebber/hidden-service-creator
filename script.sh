@@ -141,5 +141,3 @@ if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
 else
     echo "Using the automatically generated hidden service URL: $onion_address"
 fi
-### **Step 8: Copy the Generated Keys to Hidden Service Directory**
-### **Step 9: Restart the Tor Service**
