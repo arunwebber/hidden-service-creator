@@ -82,6 +82,17 @@ fi
 onion_address=$(sudo cat /var/lib/tor/hidden_service/hostname)
 echo "Generated Onion Address: $onion_address"
 echo "Copy your website content to /var/www/html and it will serve on this onion address"
+# Ask if user wants to back up the automatically generated keys
+read -p "Do you want to save a backup of auto generated onion service keys? (y/n): " backup_choice
+
+if [[ "$backup_choice" == "y" || "$backup_choice" == "Y" ]]; then
+    read -p "Enter the backup directory path: " backup_path
+    mkdir -p "$backup_path"
+    sudo cp /var/lib/tor/hidden_service/hostname "$backup_path/"
+    sudo cp /var/lib/tor/hidden_service/hs_ed25519_public_key "$backup_path/"
+    sudo cp /var/lib/tor/hidden_service/hs_ed25519_secret_key "$backup_path/"
+    echo "Keys backed up to: $backup_path"
+fi
 
 # Ask if user wants to configure a manual URL
 read -p "Do you want to configure a manual URL? (y/n): " choice
